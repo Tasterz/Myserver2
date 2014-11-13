@@ -1,18 +1,24 @@
-var express=require('express')
-var app= express()
+var express = require('express')
+var mongojs = require('mongojs')     //incliude mongojs
+var bodyParser = require('body-parser')
+var app = express()
 
+var db = mongojs('my_server',['book']);   //connect database
 
-app.use(express.static(__dirname+'/public'));
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
 
-app.get('/api/book',function(req,res){
-	var books = [
-		{title: 'DotA Trick 1', price: 200},
-		{title: 'DotA Update', price: 300},
-		{title: 'DotA Pro', price: 400}
-	];
-	res.send(books);
+app.get('/api/book',function(reg,res){  //sent data from server to app.js (pass docs) 
+
+      db.book.find({},function(err,docs){   //query database
+           res.send(docs);
+      });
+      
 })
 
-var server=app.listen(3000,function(){
-	console.log("server is running")
+
+
+var server = app.listen(3000, function () {
+  console.log("server is running")
+
 })
