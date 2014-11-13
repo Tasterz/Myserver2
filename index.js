@@ -16,7 +16,12 @@ app.get('/api/book',function(reg,res){  //sent data from server to app.js (pass 
       
 })
 
+app.post('/api/book',function(req,res){
+    db.book.insert(req.body,function(err,docs){   //query database keep data in database
+           res.send(docs);
+      });
 
+});
 
 var server = app.listen(3000, function () {
   console.log("server is running")
